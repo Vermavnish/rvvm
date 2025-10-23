@@ -1,0 +1,11 @@
+{
+  "name": "rvvm-website",
+  "version": "1.0.0",
+  "description": "Radhika Vilas Vidya Mandir - Static Website",
+  "scripts": {
+    "build": "echo 'No build required for static site'"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
