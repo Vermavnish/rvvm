@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RVVM Virtual Assistant - Chatbot</title>
+    <meta name="description" content="RVVM Virtual Assistant - Ask questions about Radhika Vilas Vidya Mandir">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Chatbot Stylesheet -->
+    <link rel="stylesheet" href="chat-style.css">
+</head>
+<body>
+    
+    <!-- Main Container -->
+    <div class="chat-page">
+        <!-- Chatbot Container -->
+        <div class="chatbot-container">
+            
+            <!-- Header -->
+            <div class="chat-header">
+                <div class="header-left">
+                    <div class="bot-avatar">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div class="bot-info">
+                        <h2>RVVM Virtual Assistant</h2>
+                        <p class="status">
+                            <span class="status-dot"></span>
+                            <span>Online & Ready</span>
+                        </p>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <button class="header-btn" id="clearBtn" title="Clear Chat">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                    <button class="header-btn" id="infoBtn" title="Info">
+                        <i class="fas fa-info-circle"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Welcome Card -->
+            <div class="welcome-card" id="welcomeCard">
+                <div class="welcome-icon">
+                    <i class="fas fa-hand-sparkles"></i>
+                </div>
+                <h3>नमस्ते! Welcome to RVVM</h3>
+                <p>Radhika Vilas Vidya Mandir, Chakia, Ballia</p>
+                <p class="welcome-text">मैं आपकी मदद के लिए यहाँ हूँ। School के बारे में कुछ भी पूछें!</p>
+                
+                <!-- Quick Questions -->
+                <div class="quick-questions">
+                    <button class="quick-btn" data-question="admission kaise karein?">
+                        <i class="fas fa-user-plus"></i>
+                        <span>Admission</span>
+                    </button>
+                    <button class="quick-btn" data-question="fees kitni hai?">
+                        <i class="fas fa-rupee-sign"></i>
+                        <span>Fees</span>
+                    </button>
+                    <button class="quick-btn" data-question="school timings?">
+                        <i class="fas fa-clock"></i>
+                        <span>Timings</span>
+                    </button>
+                    <button class="quick-btn" data-question="contact number?">
+                        <i class="fas fa-phone"></i>
+                        <span>Contact</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Chat Messages Area -->
+            <div class="chat-messages" id="chatMessages">
+                <div class="message bot-message">
+                    <div class="message-avatar">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div class="message-bubble">
+                        <p>🙏 Namaste! मैं RVVM Virtual Assistant हूँ।</p>
+                        <p>School के बारे में कुछ भी पूछ सकते हैं जैसे:</p>
+                        <p>• Admission process<br>• Fee structure<br>• Facilities<br>• Contact details</p>
+                        <span class="message-time" id="initialTime"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Typing Indicator -->
+            <div class="typing-indicator" id="typingIndicator">
+                <div class="message-avatar">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div class="typing-bubble">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+
+            <!-- Input Area -->
+            <div class="chat-input-area">
+                <button class="input-btn" id="emojiBtn" title="Emoji">
+                    <i class="fas fa-smile"></i>
+                </button>
+                <input 
+                    type="text" 
+                    id="chatInput" 
+                    placeholder="Type your question... / अपना सवाल लिखें..."
+                    autocomplete="off"
+                    maxlength="500"
+                >
+                <button class="send-btn" id="sendBtn">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+
+        </div>
+
+        <!-- Info Sidebar -->
+        <div class="info-sidebar" id="infoSidebar">
+            <div class="sidebar-header">
+                <h3><i class="fas fa-info-circle"></i> Information</h3>
+                <button class="close-sidebar" id="closeSidebar">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="info-content">
+                <div class="info-card">
+                    <h4><i class="fas fa-question-circle"></i> How to Use</h4>
+                    <ul>
+                        <li>Ask questions in Hindi or English</li>
+                        <li>Click quick buttons for common queries</li>
+                        <li>Get instant responses 24/7</li>
+                        <li>Clear chat anytime</li>
+                    </ul>
+                </div>
+
+                <div class="info-card">
+                    <h4><i class="fas fa-phone"></i> Contact Us</h4>
+                    <p><strong>Phone:</strong> 070712 50111</p>
+                    <p><strong>Alternate:</strong> 070712 50999</p>
+                    <p><strong>Email:</strong> radhikavilaschakia@gmail.com</p>
+                    <p><strong>WhatsApp:</strong> +91 70712 50999</p>
+                </div>
+
+                <div class="info-card">
+                    <h4><i class="fas fa-map-marker-alt"></i> Location</h4>
+                    <p>SH-1B, Chakia (Dalpatpur)<br>Ballia, Uttar Pradesh</p>
+                </div>
+
+                <div class="info-card">
+                    <h4><i class="fas fa-clock"></i> Office Hours</h4>
+                    <p>Monday - Saturday<br>8:00 AM - 3:00 PM</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating WhatsApp Button -->
+    <a href="https://wa.me/917071250999" class="whatsapp-float" target="_blank" title="Chat on WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <!-- Scripts -->
+    <!-- Load all chatbot data files -->
+    <script src="js/chatbot-data/greetings.js"></script>
+    <script src="js/chatbot-data/admission.js"></script>
+    <script src="js/chatbot-data/fees.js"></script>
+    <script src="js/chatbot-data/facilities.js"></script>
+    <script src="js/chatbot-data/academics.js"></script>
+    <script src="js/chatbot-data/exams.js"></script>
+    <script src="js/chatbot-data/parent-queries.js"></script>
+    
+    <!-- Master chatbot integration -->
+    <script src="js/chatbot-engine.js"></script>
+    
+    <!-- Main chat UI script -->
+    <script src="chat.js"></script>
+</body>
+</html>
