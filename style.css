@@ -706,17 +706,30 @@ footer {
         width: 50px;
         height: 50px;
         font-size: 26px;
-        bottom: 250px;
-        right: 20px;
-    }
-    .robo-float {
-        width: 50px;
-        color:red:
-        height: 50px;
-        font-size: 26px;
         bottom: 20px;
         right: 20px;
     }
+    .floating-icon {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 999;
+  background-color: #fff;
+  border-radius: 50%;
+  padding: 12px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  transition: transform 0.3s ease;
+}
+
+.floating-icon:hover {
+  transform: scale(1.1);
+}
+
+.floating-icon i {
+  font-size: 32px;
+  color: #007bff;
+}
+
     
     
     .scroll-top {
