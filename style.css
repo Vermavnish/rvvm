@@ -730,7 +730,9 @@ footer {
 .floating-icon i {
   font-size: 32px;
   color: #007bff;
-    border:1px solid #eee;
+    border-radius:50%;
+    
+    border:10px solid #ccc;
 }
 
     
