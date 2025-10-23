@@ -718,7 +718,7 @@ footer {
   z-index: 999;
   background-color:#6f6;
   border-radius: 50%;
-  padding: 20px;
+  
 
   transition: transform 0.3s ease;
 }
@@ -730,6 +730,7 @@ footer {
 .floating-icon i {
   font-size: 32px;
   color: #fff;
+    padding:20px;
     border-radius:50%;
     background-color:rgba(5,5,5,0.3);
     
