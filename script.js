@@ -1,173 +1,178 @@
-// Mobile Menu Toggle
-const hamburger = document.querySelector('.hamburger');
-const navMenu = document.querySelector('.nav-menu');
+// RVVM Chatbot Script with Advanced Typo Tolerance
 
-if (hamburger && navMenu) {
-    hamburger.addEventListener('click', () => {
-        navMenu.classList.toggle('active');
-        hamburger.classList.toggle('active');
-    });
-
-    // Close mobile menu when clicking on a link
-    document.querySelectorAll('.nav-menu a').forEach(link => {
-        link.addEventListener('click', () => {
-            navMenu.classList.remove('active');
-            hamburger.classList.remove('active');
-        });
-    });
-}
-
-// Smooth Scrolling for Navigation Links
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            target.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
-        }
-    });
-});
-
-// Scroll to Top Button
-const scrollTopBtn = document.getElementById('scrollTop');
-
-if (scrollTopBtn) {
-    window.addEventListener('scroll', () => {
-        if (window.pageYOffset > 300) {
-            scrollTopBtn.classList.add('show');
-        } else {
-            scrollTopBtn.classList.remove('show');
-        }
-    });
-
-    scrollTopBtn.addEventListener('click', () => {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
-    });
-}
-
-// Active Navigation on Scroll
-const sections = document.querySelectorAll('section');
-const navLinks = document.querySelectorAll('.nav-menu a');
-
-window.addEventListener('scroll', () => {
-    let current = '';
+// Levenshtein Distance Algorithm for fuzzy matching
+function levenshteinDistance(str1, str2) {
+    str1 = str1.toLowerCase();
+    str2 = str2.toLowerCase();
     
-    sections.forEach(section => {
-        const sectionTop = section.offsetTop;
-        const sectionHeight = section.clientHeight;
-        if (pageYOffset >= (sectionTop - 200)) {
-            current = section.getAttribute('id');
-        }
-    });
+    const matrix = [];
     
-    navLinks.forEach(link => {
-        link.classList.remove('active');
-        if (link.getAttribute('href').includes(current)) {
-            link.classList.add('active');
-        }
-    });
-});
-
-// Form Validation - Admission Form
-const admissionForm = document.getElementById('admissionForm');
-
-if (admissionForm) {
-    admissionForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        const studentName = document.getElementById('studentName').value.trim();
-        const parentName = document.getElementById('parentName').value.trim();
-        const phone = document.getElementById('phone').value.trim();
-        const classSelected = document.getElementById('class').value;
-        const message = document.getElementById('message').value.trim();
-        
-        // Validation
-        if (studentName === '' || parentName === '' || phone === '' || classSelected === '') {
-            alert('कृपया सभी आवश्यक फ़ील्ड भरें / Please fill all required fields');
-            return false;
-        }
-        
-        // Phone validation (Indian format)
-        const phoneRegex = /^[6-9]\d{9}$/;
-        if (!phoneRegex.test(phone)) {
-            alert('कृपया 10 अंकों का सही मोबाइल नंबर दर्ज करें / Please enter a valid 10-digit mobile number');
-            return false;
-        }
-        
-        // Success message
-        alert(`धन्यवाद ${parentName}! आपकी पूछताछ सफलतापूर्वक सबमिट हो गई है।\n\nThank you! Your enquiry for ${studentName} (Class ${classSelected}) has been submitted successfully.\n\nहम जल्द ही आपसे संपर्क करेंगे। / We will contact you soon.`);
-        
-        // Reset form
-        admissionForm.reset();
-        return false;
-    });
-}
-
-// Animation on Scroll (Intersection Observer)
-const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -100px 0px'
-};
-
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.style.opacity = '1';
-            entry.target.style.transform = 'translateY(0)';
-        }
-    });
-}, observerOptions);
-
-// Apply animation to elements
-document.querySelectorAll('.facility-card, .gallery-item, .admission-box, .contact-item').forEach(el => {
-    el.style.opacity = '0';
-    el.style.transform = 'translateY(50px)';
-    el.style.transition = 'all 0.6s ease';
-    observer.observe(el);
-});
-
-// Header hide/show on scroll
-const header = document.querySelector('header');
-let lastScroll = 0;
-
-window.addEventListener('scroll', () => {
-    const currentScroll = window.pageYOffset;
+    for (let i = 0; i <= str2.length; i++) {
+        matrix[i] = [i];
+    }
     
-    if (currentScroll > 100) {
-        if (currentScroll > lastScroll) {
-            header.style.transform = 'translateY(-100%)';
-        } else {
-            header.style.transform = 'translateY(0)';
+    for (let j = 0; j <= str1.length; j++) {
+        matrix[0][j] = j;
+    }
+    
+    for (let i = 1; i <= str2.length; i++) {
+        for (let j = 1; j <= str1.length; j++) {
+            if (str2.charAt(i - 1) === str1.charAt(j - 1)) {
+                matrix[i][j] = matrix[i - 1][j - 1];
+            } else {
+                matrix[i][j] = Math.min(
+                    matrix[i - 1][j - 1] + 1,
+                    matrix[i][j - 1] + 1,
+                    matrix[i - 1][j] + 1
+                );
+            }
         }
     }
     
-    lastScroll = currentScroll;
-});
+    return matrix[str2.length][str1.length];
+}
 
-// Gallery item click effect
-const galleryItems = document.querySelectorAll('.gallery-item');
-
-galleryItems.forEach(item => {
-    item.addEventListener('click', function() {
-        const imgSrc = this.querySelector('img').src;
-        const caption = this.querySelector('.overlay p').textContent;
+// Find best matching response
+function findBestMatch(userInput) {
+    userInput = userInput.toLowerCase().trim();
+    
+    // First: Exact pattern matching
+    for (let category in chatbotData) {
+        if (category === 'default') continue;
         
-        // Simple alert - you can replace with lightbox
-        alert(`Gallery Image: ${caption}\n\nNote: Add actual school photos here!`);
-    });
-});
+        const patterns = chatbotData[category].patterns;
+        for (let pattern of patterns) {
+            if (userInput.includes(pattern.toLowerCase())) {
+                return chatbotData[category].response;
+            }
+        }
+    }
+    
+    // Second: Fuzzy matching with Levenshtein distance
+    let bestMatch = null;
+    let bestScore = Infinity;
+    const threshold = 3; // Maximum 3 character difference allowed
+    
+    for (let category in chatbotData) {
+        if (category === 'default') continue;
+        
+        const patterns = chatbotData[category].patterns;
+        for (let pattern of patterns) {
+            const distance = levenshteinDistance(userInput, pattern);
+            if (distance < bestScore && distance <= threshold) {
+                bestScore = distance;
+                bestMatch = chatbotData[category].response;
+            }
+        }
+    }
+    
+    if (bestMatch) {
+        return bestMatch;
+    }
+    
+    // Third: Word-by-word matching
+    const userWords = userInput.split(' ');
+    for (let category in chatbotData) {
+        if (category === 'default') continue;
+        
+        const patterns = chatbotData[category].patterns;
+        for (let pattern of patterns) {
+            const patternWords = pattern.toLowerCase().split(' ');
+            let matchCount = 0;
+            
+            for (let userWord of userWords) {
+                for (let patternWord of patternWords) {
+                    if (levenshteinDistance(userWord, patternWord) <= 2) {
+                        matchCount++;
+                    }
+                }
+            }
+            
+            if (matchCount >= Math.min(userWords.length, patternWords.length) * 0.6) {
+                return chatbotData[category].response;
+            }
+        }
+    }
+    
+    // Default response if nothing matches
+    return chatbotData.default.response;
+}
 
-// Add loading class to body
+// Display message in chat
+function displayMessage(message, isUser = false) {
+    const chatBody = document.getElementById('chatbotBody');
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
+    
+    const contentDiv = document.createElement('div');
+    contentDiv.className = 'message-content';
+    
+    // Format bot messages with proper line breaks
+    if (!isUser) {
+        contentDiv.innerHTML = message.replace(/\n/g, '<br>');
+    } else {
+        contentDiv.textContent = message;
+    }
+    
+    messageDiv.appendChild(contentDiv);
+    chatBody.appendChild(messageDiv);
+    
+    // Scroll to bottom
+    chatBody.scrollTop = chatBody.scrollHeight;
+}
+
+// Send message function
+function sendMessage() {
+    const inputField = document.getElementById('userInput');
+    const userMessage = inputField.value.trim();
+    
+    if (userMessage === '') return;
+    
+    // Display user message
+    displayMessage(userMessage, true);
+    
+    // Clear input field
+    inputField.value = '';
+    
+    // Get bot response with slight delay for natural feel
+    setTimeout(() => {
+        const botResponse = findBestMatch(userMessage);
+        displayMessage(botResponse, false);
+    }, 500);
+}
+
+// Handle Enter key press
+function handleKeyPress(event) {
+    if (event.key === 'Enter') {
+        sendMessage();
+    }
+}
+
+// Quick query buttons
+function sendQuickQuery(query) {
+    const inputField = document.getElementById('userInput');
+    inputField.value = query;
+    sendMessage();
+}
+
+// Toggle chatbot (minimize/maximize)
+function toggleChatbot() {
+    const chatBody = document.getElementById('chatbotBody');
+    const footer = document.querySelector('.chatbot-footer');
+    const btn = document.querySelector('.minimize-btn');
+    
+    if (chatBody.style.display === 'none') {
+        chatBody.style.display = 'block';
+        footer.style.display = 'flex';
+        btn.textContent = '−';
+    } else {
+        chatBody.style.display = 'none';
+        footer.style.display = 'none';
+        btn.textContent = '+';
+    }
+}
+
+// Initialize chatbot
 window.addEventListener('load', () => {
-    document.body.classList.add('loaded');
+    console.log('RVVM Chatbot initialized successfully! 🎓');
 });
-
-// Console log for developer
-console.log('🎓 Radhika Vilas Vidya Mandir Website - Developed by Your Name');
-console.log('📱 Website is fully responsive and functional!');
