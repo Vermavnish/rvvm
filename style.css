@@ -22,7 +22,8 @@ body {
     overflow-x: hidden;
 }
 #warning{ color:red;
-         background-color:yellow;}
+         background-color:yellow;
+        justify-content:center;}
 .container {
     max-width: 1200px;
     margin: 0 auto;
@@ -720,4 +721,5 @@ footer {
         grid-template-columns: 1fr;
     }
 }
+
 
